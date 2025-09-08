@@ -27,3 +27,5 @@ const handleRegister = async (e) => {
         setMessage('An error occurred. Please try again later.');
     }
 };
+
+export default RegisterPage;
