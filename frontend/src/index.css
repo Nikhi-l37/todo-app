@@ -1,0 +1,10 @@
+/* in src/index.css */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  background-color: #1960a7;
+  padding-top: 40px;
+}
+
