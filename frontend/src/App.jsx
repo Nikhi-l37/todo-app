@@ -7,7 +7,7 @@ import { Routes, Route } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage'; // <-- This is the one the error is about
 import TodoPage from './pages/TodoPage';
-import ProtectedRoute from './components/AddTodoForm';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
