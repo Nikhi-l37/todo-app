@@ -1,11 +1,7 @@
-// in src/pages/TodoPage.jsx
-
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import AddTodoForm from '../components/AddTodoForm';
 import TodoList from '../components/TodoList';
-
-// Note: You don't need to import TodoItem here, as only TodoList uses it.
 
 function TodoPage() {
   const [todos, setTodos] = useState([]);
@@ -14,33 +10,34 @@ function TodoPage() {
   useEffect(() => {
     const fetchTodos = async () => {
       const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/login');
-        return;
-      }
       try {
-        const response = await fetch(`${import.meta.env.VITE_API_URL}/todos`, { // CORRECTED
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/todos`, {
           headers: { 'x-auth-token': token },
         });
+
         if (!response.ok) {
           localStorage.removeItem('token');
           navigate('/login');
           return;
         }
+
         const data = await response.json();
-        console.log("1. Data fetched in TodoPage:", data);
         setTodos(data);
       } catch (error) {
         console.error("Error fetching todos:", error);
       }
     };
-    fetchTodos();
+
+    // Only fetch if a token exists. This check is an extra safety layer.
+    if (localStorage.getItem('token')) {
+      fetchTodos();
+    }
   }, [navigate]);
 
   const handleAddTodo = async (title) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/todos`, { // CORRECTED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/todos`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,7 +55,7 @@ function TodoPage() {
   const handleDeleteTodo = async (id) => {
     const token = localStorage.getItem('token');
     try {
-      await fetch(`${import.meta.env.VITE_API_URL}/todos/${id}`, { // CORRECTED
+      await fetch(`${import.meta.env.VITE_API_URL}/todos/${id}`, {
         method: 'DELETE',
         headers: { 'x-auth-token': token },
       });
@@ -71,7 +68,7 @@ function TodoPage() {
   const handleToggleComplete = async (id, currentCompletedStatus) => {
     const token = localStorage.getItem('token');
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/todos/${id}`, { // CORRECTED
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/todos/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

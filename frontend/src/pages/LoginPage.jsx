@@ -1,10 +1,9 @@
-// in src/pages/LoginPage.jsx
-
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import './FormStyles.css'; // Reuse the same styles
+import './FormStyles.css';
 
 function LoginPage() {
+  // --- THIS LINE IS NOW CORRECTED ---
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
@@ -29,18 +28,14 @@ function LoginPage() {
       const data = await response.json();
 
       if (response.ok) {
-        // --- THIS IS THE MOST IMPORTANT PART ---
-        // 1. Save the token to localStorage
         localStorage.setItem('token', data.token);
-
-        // 2. Redirect the user to the main to-do list page
         navigate('/');
       } else {
- console.error("Login failed with message:", data.message); 
-            setMessage(data.message || 'Login failed. Please check your credentials.');      }
+        setMessage(data.message || 'Login failed.');
+      }
     } catch (error) {
       console.error('Login error:', error);
-      setMessage('An error occurred. Please try again later.');
+      setMessage('An error occurred. Please try again.');
     }
   };
 
@@ -67,9 +62,7 @@ function LoginPage() {
           />
         </div>
         <button type="submit">Login</button>
-
         {message && <p className="message">{message}</p>}
-
         <p className="form-link">
           Don't have an account? <Link to="/register">Register here</Link>
         </p>
