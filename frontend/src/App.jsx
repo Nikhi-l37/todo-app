@@ -2,9 +2,8 @@
 
 import { Routes, Route } from 'react-router-dom';
 
-// --- THE MISSING IMPORT IS HERE ---
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage'; // Make sure this line exists
+import RegisterPage from './pages/RegisterPage';
 import TodoPage from './pages/TodoPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
