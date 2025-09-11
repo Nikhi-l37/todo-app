@@ -1,6 +1,10 @@
+// in src/App.jsx
+
 import { Routes, Route } from 'react-router-dom';
+
+// --- THE MISSING IMPORT IS HERE ---
 import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import RegisterPage from './pages/RegisterPage'; // Make sure this line exists
 import TodoPage from './pages/TodoPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
@@ -15,6 +19,7 @@ function App() {
           </ProtectedRoute>
         }
       />
+      
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
     </Routes>
