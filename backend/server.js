@@ -16,11 +16,7 @@ const allowedOrigins = [
 
 const corsOptions = {
   origin: function (origin, callback) {
-    // Allow requests with no origin (like Postman)
-    if (!origin) return callback(null, true);
-    
-    // Check if the origin matches our allowed patterns
-    if (allowedOrigins.some(regex => regex.test(origin))) {
+    if (!origin || allowedOrigins.some(regex => regex.test(origin))) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
@@ -29,9 +25,23 @@ const corsOptions = {
 };
 
 // --- MIDDLEWARE ---
-app.use(cors(corsOptions)); // Use our flexible CORS options
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // --- DATABASE CONNECTION & ROUTES ---
-// ... the rest of your server.js file is perfect and does not need to change ...
-// ...
+const uri = process.env.MONGO_URI;
+mongoose.connect(uri);
+const connection = mongoose.connection;
+connection.once('open', () => {
+  console.log('✅ MongoDB database connection established successfully');
+});
+
+const todoRoutes = require('./routes/todo.routes');
+const userRoutes = require('./routes/user.routes');
+app.use('/api/todos', todoRoutes);
+app.use('/api/users', userRoutes);
+
+// --- START SERVER ---
+app.listen(PORT, () => {
+  console.log(`🚀 Server is running on port: ${PORT}`);
+});
